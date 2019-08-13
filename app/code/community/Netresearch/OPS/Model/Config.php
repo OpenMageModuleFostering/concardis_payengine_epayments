@@ -970,7 +970,15 @@ class Netresearch_OPS_Model_Config extends Mage_Payment_Model_Config
         return $this->getConfigData('suspendSubscription_identity', $storeId);
     }
 
-
+    /**
+     * @param string $methodCode
+     * @param int|null $storeId
+     * @return mixed
+     */
+    public function getHtpTemplateName($methodCode, $storeId = null)
+    {
+        return Mage::getStoreConfig("payment/{$methodCode}/htp_template_name", $storeId);
+    }
 
 }
 

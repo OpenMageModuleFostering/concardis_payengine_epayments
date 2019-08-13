@@ -607,7 +607,8 @@ class Netresearch_OPS_Test_Model_Payment_Kwixo_AbstractTest
         $params = array();
         $this->assertEquals(
             'Please make sure that the displayed data is correct.',
-            Mage::getModel('ops/payment_kwixo_abstract')->getQuestion());
+            Mage::getModel('ops/payment_kwixo_abstract')->getQuestion()
+        );
     }
 
     public function testGetQuestionedFormFields()

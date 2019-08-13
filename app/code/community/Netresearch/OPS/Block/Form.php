@@ -240,7 +240,7 @@ class Netresearch_OPS_Block_Form extends Mage_Payment_Block_Form_Cc
      * @return array | null - array the alias data or null if the customer
      * is not logged in
      */
-    protected function getStoredAliasForCustomer()
+    public function getStoredAliasForCustomer()
     {
         if (Mage::helper('customer/data')->isLoggedIn()
             && Mage::getModel('ops/config')->isAliasManagerEnabled($this->getMethodCode())
@@ -358,6 +358,16 @@ class Netresearch_OPS_Block_Form extends Mage_Payment_Block_Form_Cc
         }
 
         return $returnValue;
+    }
+
+    /**
+     * @param $methodCode
+     * @param $storeId
+     * @return mixed|string
+     */
+    public function getHtpTemplateName($methodCode, $storeId = null)
+    {
+        return $this->getConfig()->getHtpTemplateName($methodCode, $storeId);
     }
 
 }

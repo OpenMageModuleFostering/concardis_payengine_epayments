@@ -305,10 +305,7 @@ class Netresearch_OPS_Model_Status_Update
     {
         $methodInstance = $payment->getMethodInstance();
 
-        return ($methodInstance instanceof Netresearch_OPS_Model_Payment_Kwixo_Abstract)
-        || ($methodInstance instanceof Netresearch_OPS_Model_Payment_DirectDebit)
-        || ($methodInstance instanceof Netresearch_OPS_Model_Payment_Cc
-            && $methodInstance->hasBrandAliasInterfaceSupport($payment));
+        return $methodInstance instanceof Netresearch_OPS_Model_Payment_Kwixo_Abstract;
     }
 
 } 

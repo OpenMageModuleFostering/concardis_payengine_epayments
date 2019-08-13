@@ -1,16 +1,16 @@
-Event.observe(window, 'load', function () {
+Event.observe(
+    window, 'load', function () {
 
     payment.opsAliasSuccess = false;
-
 
     payment.isInline = function () {
         return payment.isCCInline() || payment.isDbInline();
     };
 
     payment.isDbInline = function () {
-       return payment.currentMethodObject && payment.currentMethodObject.code == 'ops_directDebit'
-           && (!$('new_alias_ops_directDebit') || $('new_alias_ops_directDebit').checked === true)
-           && $('ops_directDebit_country_id').value != '';
+        return payment.currentMethodObject && payment.currentMethodObject.code == 'ops_directDebit'
+            && (!$('new_alias_ops_directDebit') || $('new_alias_ops_directDebit').checked === true)
+            && $('ops_directDebit_country_id').value != '';
     };
 
     payment.isCCInline = function () {
@@ -26,21 +26,22 @@ Event.observe(window, 'load', function () {
         payment.currentMethodObject.tokenizationFrame.src = opsUrl + '?' + form.serialize();
     };
 
-
     payment.generateHash = function () {
-        return new Ajax.Request(opsHashUrl + '?' + payment.prepareOpsForm(false).serialize(), {
+        return new Ajax.Request(
+            opsHashUrl + '?' + payment.prepareOpsForm(false).serialize(), {
             method: 'post',
             onSuccess: function (transport) {
                 var data = transport.responseText.evalJSON();
                 payment.generateIframeUrl(data.hash);
             }
-        });
+            }
+        );
     };
 
     payment.handleBrandChange = function () {
         payment.currentMethodObject.tokenizationFrame.src = 'about:blank';
         payment.opsAliasSuccess = false;
-        if ( payment.isInline()) {
+        if (payment.isInline()) {
             if (payment.currentMethodObject.redirectNote) {
                 payment.currentMethodObject.redirectNote.style.display = 'none';
             }
@@ -108,7 +109,15 @@ Event.observe(window, 'load', function () {
         aliasElement.id = 'ALIAS.ALIASID';
         aliasElement.value = opsAlias;
 
-        if(payment.currentMethodObject.aliasManager) {
+        if (payment.currentMethodObject.htpTemplateName.blank() == false) {
+            var htpTemplateElement = doc.createElement('input');
+            htpTemplateElement.name = 'LAYOUT.TEMPLATENAME';
+            htpTemplateElement.id = 'LAYOUT.TEMPLATENAME';
+            htpTemplateElement.value = payment.currentMethodObject.htpTemplateName;
+            form.appendChild(htpTemplateElement);
+        }
+
+        if (payment.currentMethodObject.aliasManager) {
             var storePermanentlyElement = doc.createElement('input');
             storePermanentlyElement.name = 'ALIAS.STOREPERMANENTLY';
             storePermanentlyElement.id = 'ALIAS.STOREPERMANENTLY';
@@ -180,7 +189,7 @@ Event.observe(window, 'load', function () {
             checkout.setLoadWaiting('payment', true);
             checkout.setLoadWaiting(false, true);
         }
-        if(typeof payment.opcToggleContinue == 'function'){
+        if (typeof payment.opcToggleContinue == 'function') {
             payment.opcToggleContinue(active);
         }
     };
@@ -192,9 +201,19 @@ Event.observe(window, 'load', function () {
         }
     };
 
-    if(payment.currentMethod && window[payment.currentMethod]){
-        payment.currentMethodObject = window[payment.currentMethod];
-    }
+    payment.prefillDDCountry = function (billingCountry) {
+        if ($$("#ops_directDebit_country_id option:selected[value!=]")) {
+            $$('#' + payment.currentMethodObject.code + '_country_id option').each(
+                function (el) {
+                if (el.readAttribute('value') === billingCountry) {
+                    el.selected = true;
+                    payment.handleBrandChange();
+                    throw $break;
+                }
+                }
+            );
+        }
+    };
 
     payment.opsAdminSwitchMethod = function (method) {
         if (typeof window[method] != 'undefined') {
@@ -219,8 +238,14 @@ Event.observe(window, 'load', function () {
         } else {
             delete payment.currentMethodObject;
         }
+    };
+
+    if (payment.currentMethod && window[payment.currentMethod]) {
+        payment.currentMethodObject = window[payment.currentMethod];
     }
-});
+    }
+);
+
 function toggleOrderSubmit(active) {
     if (active) {
         enableElements('save')

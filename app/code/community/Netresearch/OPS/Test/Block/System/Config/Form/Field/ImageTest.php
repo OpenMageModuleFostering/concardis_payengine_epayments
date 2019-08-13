@@ -42,7 +42,8 @@ class Netresearch_OPS_Test_Block_System_Config_Form_Field_ImageTest
     public function getElementHtml()
     {
         $blockMock =
-            $this->getBlockMock('ops/system_config_form_field_image', array('getHtmlId', '_getDeleteCheckbox'), false,
+            $this->getBlockMock(
+                'ops/system_config_form_field_image', array('getHtmlId', '_getDeleteCheckbox'), false,
                 array(), '', false
             );
 

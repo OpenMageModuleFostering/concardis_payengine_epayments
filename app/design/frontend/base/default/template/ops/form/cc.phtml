@@ -59,8 +59,9 @@ $code = $this->getMethodCode();
 
                     <?php if ($this->checkIfBrandHasAliasInterfaceSupport($alias->getId())): ?>
                         <li class="cvc" style="display: none;">
-                            <label class="required" for="<?php echo strtoupper($code) ?>_CVC_<?php echo $alias->getId(
-                            ) ?>"><?php echo $this->__('Card Verification Number'); ?><em>*</em></label>
+                            <label class="required"
+                                   for="<?php echo strtoupper($code) ?>_CVC_<?php echo $alias->getId() ?>"><?php echo $this->__('Card Verification Number'); ?>
+                                <em>*</em></label>
                             <input title="<?php echo $this->__('Card Verification Number'); ?>"
                                    class="input-text required-entry"
                                    type="text" name="payment[<?php echo $code ?>_data][cvc]"
@@ -113,8 +114,6 @@ $code = $this->getMethodCode();
             opsExceptionUrl = '<?php echo $this->getAliasExceptionUrl(); ?>';
             opsUrl = '<?php echo $this->getAliasGatewayUrl(); ?>';
             opsAlias = '';
-
-
             paramplus = 'RESPONSEFORMAT=JSON';
 
             <?php echo $code ?> = {
@@ -129,7 +128,8 @@ $code = $this->getMethodCode();
                 : 'false' ?>,
                 'brand': function () {
                     return $(payment.currentMethodObject.code.toUpperCase() + '_BRAND').value;
-                }
+                },
+                'htpTemplateName': '<?php echo $this->getHtpTemplateName($code)?>'
             };
             locale = '<?php echo Mage::app()->getLocale()->getLocaleCode(); ?>';
             transmitPaymentMethod = false;
@@ -142,7 +142,9 @@ $code = $this->getMethodCode();
                 if (typeof payment.onOpsIframeLoad == 'function') {
                     payment.onOpsIframeLoad();
                 }
-            });
+            }
+            )
+            ;
 
             Event.observe(document, 'alias:success', function (event) {
                 payment.fillOpsLoader('SUCCESS_TOKEN_FRONTEND');

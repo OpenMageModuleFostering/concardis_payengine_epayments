@@ -74,7 +74,7 @@ class Netresearch_OPS_Model_Observer
                     $quote->getPayment()
                 )
             ) {
-                $this->confirmDdPayment($order, $quote );
+                $this->confirmDdPayment($order, $quote);
             } elseif ($quote->getPayment()->getMethodInstance() instanceof Netresearch_OPS_Model_Payment_Abstract) {
                 $requestParams = $quote->getPayment()->getMethodInstance()->getFormFields($order, array(), false);
                 $this->invokeRequestParamValidation($requestParams);
@@ -697,7 +697,10 @@ class Netresearch_OPS_Model_Observer
 
         try {
             Mage::helper('ops/data')->sendTransactionalEmail($order);
-            Mage::helper('ops/data')->sendTransactionalEmail($order->getPayment()->getCreatedInvoice());
+            $createdInvoice = $order->getPayment()->getCreatedInvoice();
+            if ($createdInvoice) {
+                Mage::helper('ops/data')->sendTransactionalEmail($createdInvoice);
+            }
         } catch (Exception $e) {
             Mage::logException($e);
         }

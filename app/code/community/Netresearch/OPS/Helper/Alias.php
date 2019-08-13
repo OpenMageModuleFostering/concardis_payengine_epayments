@@ -217,7 +217,8 @@ class Netresearch_OPS_Helper_Alias extends Mage_Core_Helper_Abstract
      *
      * @returns string hash of address
      */
-    public function generateAddressHash(Mage_Customer_Model_Address_Abstract $address) {
+    public function generateAddressHash(Mage_Customer_Model_Address_Abstract $address) 
+    {
         /** @var Netresearch_OPS_Helper_Payment $opsHelper */
         $opsHelper = Mage::helper('ops/payment');
         $addressString = $address->getFirstname();

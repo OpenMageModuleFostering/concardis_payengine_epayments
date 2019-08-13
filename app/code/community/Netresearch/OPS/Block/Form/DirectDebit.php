@@ -42,6 +42,13 @@ class Netresearch_OPS_Block_Form_DirectDebit extends Netresearch_OPS_Block_Form
             $countryId = $data && array_key_exists('country_id', $data) ? $data['country_id'] : '';
         }
         return $countryId;
+    }
 
+    /**
+     * @return string
+     */
+    public function getSelectedBillingCountryId()
+    {
+        return $this->getQuote()->getBillingAddress()->getCountryId();
     }
 }

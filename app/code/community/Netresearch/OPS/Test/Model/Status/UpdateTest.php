@@ -55,7 +55,7 @@ class Netresearch_OPS_Test_Model_Status_UpdateTest extends EcomDev_PHPUnit_Test_
         $orderHelperMock = $this->getHelperMock('ops/order', array('getOpsOrderId'));
         $orderHelperMock->expects($this->once())
             ->method('getOpsOrderId')
-            ->with($order, false)
+            ->with($order, true)
             ->will($this->returnValue('100'));
 
         $statusUpdateApiMock = $this->getModelMock('ops/status_update', array('performRequest', 'updatePaymentStatus'));

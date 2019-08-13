@@ -44,7 +44,11 @@ class Netresearch_OPS_Model_Api_DirectLink extends Mage_Core_Model_Abstract
      {
          try {
              $http = new Varien_Http_Adapter_Curl();
-             $config = array('timeout' => 30);
+             $config = array(
+                 'timeout'    => 30,
+                 'verifypeer' => 1,
+                 'verifyhost' => 2
+             );
              $http->setConfig($config);
              $http->write(Zend_Http_Client::POST, $url, '1.1', array(), http_build_query($params));
              $response = $http->read();
@@ -76,7 +80,7 @@ class Netresearch_OPS_Model_Api_DirectLink extends Mage_Core_Model_Abstract
             array_merge(
                 $requestParams,
                 $this->buildAuthenticationParams($storeId)
-            ),//Merge Logic Operation Data with Authentication Data
+            ), //Merge Logic Operation Data with Authentication Data
             null,
             $storeId
         );

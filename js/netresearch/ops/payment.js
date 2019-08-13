@@ -1,8 +1,10 @@
-Event.observe(window, 'load', function () {
+Event.observe(
+    window, 'load', function () {
 
 
     if (typeof checkout != 'undefined') {
-        payment.switchMethod = payment.switchMethod.wrap(function (originalMethod, method) {
+        payment.switchMethod = payment.switchMethod.wrap(
+            function (originalMethod, method) {
             if (method && typeof window[method] != 'undefined') {
                 payment.currentMethodObject = window[method];
                 if (payment.isInline() && !payment.opsAliasSuccess) {
@@ -18,12 +20,14 @@ Event.observe(window, 'load', function () {
                 }
             }
             originalMethod(method);
-        });
+            }
+        );
     }
 
 
     if (payment.onSave) {
-        payment.onSave = payment.onSave.wrap(function (original, transport) {
+        payment.onSave = payment.onSave.wrap(
+            function (original, transport) {
             var response = null;
             if (transport && transport.responseText) {
                 try {
@@ -45,18 +49,22 @@ Event.observe(window, 'load', function () {
              * if there is an error in payment, need to show error message
              */
             if (response.opsError) {
-                $H(response.fields).each(function (pair) {
+                $H(response.fields).each(
+                    function (pair) {
                     addValidationErrors(pair);
-                });
+                    }
+                );
                 checkout.gotoSection(response.goto_section);
 
             }
             original(transport);
-        });
+            }
+        );
     }
 
     if (payment.save) {
-        payment.save = payment.save.wrap(function (originalSaveMethod) {
+        payment.save = payment.save.wrap(
+            function (originalSaveMethod) {
             payment.originalSaveMethod = originalSaveMethod;
             if ($('ops-retry-form')) {
                 checkout.setLoadWaiting('payment');
@@ -69,7 +77,8 @@ Event.observe(window, 'load', function () {
             } else {
                 originalSaveMethod();
             }
-        });
+            }
+        );
     }
 
 
@@ -110,13 +119,17 @@ Event.observe(window, 'load', function () {
             $(paymenDetailsId).show();
 
 
-            $$('input[type="text"][name="payment[' + currentMethod + '_data][cvc]"]').each(function (cvcEle) {
+            $$('input[type="text"][name="payment[' + currentMethod + '_data][cvc]"]').each(
+                function (cvcEle) {
                 cvcEle.up('li').hide();
                 cvcEle.disable();
-            });
-            $$('#' + paymenDetailsId + ' input,#' + paymenDetailsId + ' select').each(function (element) {
+                }
+            );
+            $$('#' + paymenDetailsId + ' input,#' + paymenDetailsId + ' select').each(
+                function (element) {
                 element.enable();
-            });
+                }
+            );
             if(payment.currentMethodObject && payment.currentMethodObject.tokenizationFrame.src != 'about:blank'){
                 payment.toggleContinue(false);
             }
@@ -139,7 +152,8 @@ Event.observe(window, 'load', function () {
             selector.disable();
 
 
-            $$('input[type="text"][name="payment[' + currentMethod + '_data][cvc]"]').each(function (cvcEle) {
+            $$('input[type="text"][name="payment[' + currentMethod + '_data][cvc]"]').each(
+                function (cvcEle) {
                 if ($(currentMethodUC + '_CVC_' + element.id) != null
                     && $(currentMethodUC + '_CVC_' + element.id).id == cvcEle.id
                 ) {
@@ -149,44 +163,55 @@ Event.observe(window, 'load', function () {
                     cvcEle.up('li').hide();
                     cvcEle.disable();
                 }
-            });
+                }
+            );
 
-            $$('#' + paymenDetailsId + ' input,#' + paymenDetailsId + ' select').each(function (element) {
+            $$('#' + paymenDetailsId + ' input,#' + paymenDetailsId + ' select').each(
+                function (element) {
                 element.disable();
-            });
+                }
+            );
             $(paymenDetailsId).hide();
             payment.toggleContinue(true);
         }
     };
 
     if (typeof accordion != 'undefined') {
-        accordion.openSection = accordion.openSection.wrap(function (originalOpenSectionMethod, section) {
+        accordion.openSection = accordion.openSection.wrap(
+            function (originalOpenSectionMethod, section) {
             if (section.id == 'opc-payment' || section == 'opc-payment') {
 
                 payment.registerAliasEventListeners();
             }
 
             originalOpenSectionMethod(section);
-        });
+            }
+        );
     }
 
     payment.registerAliasEventListeners = function () {
         var aliasMethods = ['ops_cc', 'ops_dc', 'ops_directDebit'];
 
-        aliasMethods.each(function (method) {
+        aliasMethods.each(
+            function (method) {
             if (typeof  $('p_method_' + method) != 'undefined') {
-                $$('input[type="radio"][name="payment[' + method + '_data][alias]"]').each(function (element) {
-                    element.observe('click', function (event) {
+                $$('input[type="radio"][name="payment[' + method + '_data][alias]"]').each(
+                    function (element) {
+                    element.observe(
+                        'click', function (event) {
                         payment.toggleCCInputfields(this);
-                    })
-                });
+                        }
+                    )
+                    }
+                );
             }
             if ($('new_alias_' + method)
                 && $$('input[type="radio"][name="payment[' + method + '_data][alias]"]').size() == 1
             ) {
                 payment.toggleCCInputfields($('new_alias_' + method));
             }
-        });
+            }
+        );
     };
 
     payment.jumpToLoginStep = function () {
@@ -195,4 +220,5 @@ Event.observe(window, 'load', function () {
             $('login:register').checked = true;
         }
     };
-});
+    }
+);

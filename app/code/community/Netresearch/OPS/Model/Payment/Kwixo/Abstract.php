@@ -143,8 +143,7 @@ class Netresearch_OPS_Model_Payment_Kwixo_Abstract
         $formFields    = array();
         $billingAddress = $order->getBillingAddress();
 
-        $billingStreet         = str_replace("\n", ' ', $billingAddress->getStreet(-1));
-        $splittedBillingStreet = Mage::Helper('ops/address')->splitStreet($billingStreet);
+        $splittedBillingStreet = Netresearch_OPS_Helper_Address::splitStreet($billingAddress->getStreet());
 
         $formFields['ECOM_BILLTO_POSTAL_NAME_FIRST']    = $billingAddress->getFirstname();
         $formFields['ECOM_BILLTO_POSTAL_NAME_LAST']     = $billingAddress->getLastname();
@@ -172,8 +171,7 @@ class Netresearch_OPS_Model_Payment_Kwixo_Abstract
             $shippingAddress = $order->getBillingAddress();
         }
 
-        $shippingStreet         = str_replace("\n", ' ', $shippingAddress->getStreet(-1));
-        $splittedShippingStreet = Mage::Helper('ops/address')->splitStreet($shippingStreet);
+        $splittedShippingStreet = Netresearch_OPS_Helper_Address::splitStreet($shippingAddress->getStreet());
         $shippingMethodType     = (int)$this->getShippingMethodType($this->getCode(), $order->getStoreId());
 
         if (in_array($shippingMethodType, $this->getShippingMethodTypeValues())) {

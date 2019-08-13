@@ -1,34 +1,37 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Magento
+ * Netresearch_OPS
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Academic Free License (AFL 3.0)
- * that is bundled with this package in the file LICENSE_AFL.txt.
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/afl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
+ * http://opensource.org/licenses/osl-3.0.php
  *
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * Do not edit or add to this file if you wish to upgrade this extension to
+ * newer versions in the future.
  *
- * @category    Netresearch
- * @package     Netresearch_OPS
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ * @copyright Copyright (c) 2017 Netresearch GmbH & Co. KG (http://www.netresearch.de/)
+ * @license   Open Software License (OSL 3.0)
+ * @link      http://opensource.org/licenses/osl-3.0.php
+ */
+
+/**
+ * DeviceController.php
+ *
+ * @category Netresearch
+ * @package  Netresearch_OPS
+ * @author   Paul Siedler <paul.siedler@netresearch.de>
  */
 -->
 <config>
     <modules>
         <Netresearch_OPS>
-            <version>16.12.14</version>
+            <version>17.1.0</version>
         </Netresearch_OPS>
     </modules>
     <global>
@@ -330,8 +333,6 @@
                 <doc_link_en>http://www.netresearch.de/fileadmin/user_upload/partner-concardis/downloads/EndUserDocumentation.pdf</doc_link_en>
                 <faq_link_de></faq_link_de>
                 <faq_link_en></faq_link_en>
-                <redirectOrderReference>orderId</redirectOrderReference>
-                <inlineOrderReference>orderId</inlineOrderReference>
                 <showQuoteIdInOrderGrid>1</showQuoteIdInOrderGrid>
                 <enableTrackingCode>0</enableTrackingCode>
                 <devprefix></devprefix>
@@ -504,6 +505,8 @@
                 <inline_types>American Express,Diners Club,Maestro,MaestroUK,MasterCard,VISA,JCB</inline_types>
                 <availableTypes>AIRPLUS,American Express,Aurore,CB,Cofinoga,Dankort,Diners Club,JCB,Maestro,MaestroUK,MasterCard,PRIVILEGE,PostFinance card,UATP,UNEUROCOM,VISA</availableTypes>
                 <show_alias_manager_info_for_guests>0</show_alias_manager_info_for_guests>
+                <alias_usage_for_new_alias>Create new Alias</alias_usage_for_new_alias>
+                <alias_usage_for_existing_alias>Use existing Alias</alias_usage_for_existing_alias>
             </ops_cc>
             <ops_dc>
                 <title>PayEngine DebitCard</title>
@@ -513,6 +516,8 @@
                 <inline_types>Maestro,MaestroUK,MasterCard,VISA</inline_types>
                 <availableTypes>Maestro,MaestroUK,MasterCard,VISA</availableTypes>
                 <show_alias_manager_info_for_guests>0</show_alias_manager_info_for_guests>
+                <alias_usage_for_new_alias>Create new Alias</alias_usage_for_new_alias>
+                <alias_usage_for_existing_alias>Use existing Alias</alias_usage_for_existing_alias>
             </ops_dc>
             <ops_ingHomePay>
                 <title>PayEngine IngHomePay</title>

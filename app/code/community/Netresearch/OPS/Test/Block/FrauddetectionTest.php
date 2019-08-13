@@ -59,7 +59,7 @@ class Netresearch_OPS_Test_Block_FrauddetectionTest
                   ->method('getQuote')
                   ->will($this->returnValue($quote));
         $this->replaceByMock('singleton', 'checkout/type_onepage', $modelMock);
-        $this->assertEquals(md5(Mage::getModel('ops/config')->getPSPID() . '#123456'), $block->getTrackingSid());
+        $this->assertEquals(md5(Mage::getModel('ops/config')->getPSPID() . '123456'), $block->getTrackingSid());
     }
 
 }

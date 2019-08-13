@@ -45,10 +45,7 @@ class Netresearch_OPS_PaymentController extends Netresearch_OPS_Controller_Abstr
             return $this->_redirect('checkout/cart');
         }
 
-        $quote = $this->_getCheckout()->getQuote();
-        if ($quote) {
-            $quote->setIsActive(false)->save();
-        }
+
         $this->_getCheckout()->setOPSQuoteId($this->_getCheckout()->getQuoteId());
         $this->_getCheckout()->setOPSLastSuccessQuoteId($this->_getCheckout()->getLastSuccessQuoteId());
         $this->_getCheckout()->clear();
@@ -122,7 +119,7 @@ class Netresearch_OPS_PaymentController extends Netresearch_OPS_Controller_Abstr
 
         $msg = 'Your order has been registered, but your payment is still marked as pending.';
         $msg .= ' Please have patience until the final status is known.';
-        $this->_getCheckout()->addError(Mage::helper('ops/data')->__($msg));
+        $this->_getCheckout()->addWarning(Mage::helper('ops/data')->__($msg));
 
         $this->redirectOpsRequest('checkout/onepage/success');
     }
@@ -397,12 +394,16 @@ class Netresearch_OPS_PaymentController extends Netresearch_OPS_Controller_Abstr
      */
     protected function canRetryPayment($payment)
     {
+        $result = true;
         $additionalInformation = $payment->getAdditionalInformation();
         if (is_array($additionalInformation) && array_key_exists('status', $additionalInformation)) {
             $status = $additionalInformation['status'];
-            return Netresearch_OPS_Model_Status::canResendPaymentInfo($status);
+            $result = Netresearch_OPS_Model_Status::canResendPaymentInfo($status);
+        }
+        if($payment->getOrder()->getState() == Mage_Sales_Model_Order::STATE_CANCELED){
+            $result = false;
         }
 
-        return true;
+        return $result;
     }
 }

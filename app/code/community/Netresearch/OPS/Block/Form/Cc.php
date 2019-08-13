@@ -74,7 +74,7 @@ class Netresearch_OPS_Block_Form_Cc extends Netresearch_OPS_Block_Form
      * @return array | null - array the alias data or null if the customer
      * is not logged in
      */
-    protected function getStoredAliasForCustomer()
+    public function getStoredAliasForCustomer()
     {
         if (Mage::helper('customer/data')->isLoggedIn()
             && Mage::getModel('ops/config')->isAliasManagerEnabled($this->getMethodCode())
@@ -114,13 +114,13 @@ class Netresearch_OPS_Block_Form_Cc extends Netresearch_OPS_Block_Form
             $expirationDate = date('my');
         }
 
-        if (0 < strlen(trim($expirationDate))
-        ) {
+        if (0 < strlen(trim($expirationDate))) {
             $expirationDateValues = str_split($expirationDate, 2);
 
             if ($key == 'month') {
                 $returnValue = $expirationDateValues[0];
             }
+
             if ($key == 'year') {
                 $returnValue = $expirationDateValues[1];
             }

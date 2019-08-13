@@ -48,4 +48,23 @@ class Netresearch_OPS_Test_Block_Form_DirectDebitTest
             explode(',', 'AT, DE, NL'), $blockMock->getDirectDebitCountryIds()
         );
     }
+
+    /**
+     * @test
+     */
+    public function testGetSelectedBillingCountryID()
+    {
+        $fakeConfig        = new Varien_Object();
+        $fakeConfigCountry = new Varien_Object();
+        $fakeConfigCountry->setData('country_id', '1');
+        $fakeConfig->setData('billing_address', $fakeConfigCountry);
+        $blockMock = $this->getBlockMock(
+            'ops/form_directDebit', array('getQuote')
+        );
+        $blockMock->expects($this->once())
+                  ->method('getQuote')
+                  ->will($this->returnValue($fakeConfig));
+
+        $this->assertEquals('1', $blockMock->getSelectedBillingCountryId());
+    }
 }

@@ -103,7 +103,8 @@ abstract class Netresearch_OPS_Model_Response_Type_Abstract extends Varien_Objec
      */
     public function handleResponse($responseArray, Netresearch_OPS_Model_Payment_Abstract $paymentMethod,
         $shouldRegisterFeedback = true
-    ) {
+    ) 
+    {
         $this->setData(array_change_key_case($responseArray, CASE_LOWER));
         $this->setMethodInstance($paymentMethod);
         $this->setShouldRegisterFeedback($shouldRegisterFeedback);

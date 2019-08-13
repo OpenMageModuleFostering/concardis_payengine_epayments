@@ -56,9 +56,8 @@ class Netresearch_OPS_Model_Payment_OpenInvoiceNl
     {
         $billingAddress  = $order->getBillingAddress();
         $shippingAddress = $order->getShippingAddress();
-        $billingStreet   = str_replace("\n", ' ', $billingAddress->getStreet(-1));
 
-        $splittedBillingStreet = Mage::helper('ops/address')->splitStreet($billingStreet);
+        $splittedBillingStreet = Netresearch_OPS_Helper_Address::splitStreet($billingAddress->getStreet());
         $formFields = parent::getMethodDependendFormFields($order, $requestParams);
 
         $gender = Mage::getSingleton('eav/config')
@@ -75,9 +74,8 @@ class Netresearch_OPS_Model_Payment_OpenInvoiceNl
         $formFields['OWNERCTY']                         = $billingAddress->getCountry();
         $formFields['OWNERTELNO']                       = $billingAddress->getTelephone();
 
-        $shippingStreet = str_replace("\n", ' ', $shippingAddress->getStreet(-1));
 
-        $splittedShippingStreet = Mage::Helper('ops/address')->splitStreet($shippingStreet);
+        $splittedShippingStreet = Netresearch_OPS_Helper_Address::splitStreet($shippingAddress->getStreet());
 
         $formFields['ECOM_SHIPTO_POSTAL_NAME_PREFIX']   = $shippingAddress->getPrefix();
         $formFields['ECOM_SHIPTO_POSTAL_NAME_FIRST']    = $shippingAddress->getFirstname();

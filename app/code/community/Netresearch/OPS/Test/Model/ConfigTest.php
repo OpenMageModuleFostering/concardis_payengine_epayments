@@ -14,7 +14,6 @@ class Netresearch_OPS_Test_Model_ConfigTest
         $this->_model = Mage::getModel('ops/config');
     }
 
-
     public function testType()
     {
         $this->assertInstanceOf('Netresearch_OPS_Model_Config', $this->_model);
@@ -177,7 +176,6 @@ class Netresearch_OPS_Test_Model_ConfigTest
         $this->assertTrue($this->_model->isAliasInfoBlockEnabled());
     }
 
-
     public function testObserveCreditMemoCreation()
     {
         $this->assertEventObserverDefined(
@@ -202,17 +200,26 @@ class Netresearch_OPS_Test_Model_ConfigTest
     {
         $store = Mage::app()->getStore(0)->load(0);
         $this->assertEquals(
-            Netresearch_OPS_Model_Payment_Abstract::REFERENCE_ORDER_ID,
+            null,
             $this->_model->getOrderReference()
         );
 
         $store->setConfig(
-            'payment_services/ops/redirectOrderReference',
+            'payment_services/ops/inlineOrderReference',
             Netresearch_OPS_Model_Payment_Abstract::REFERENCE_QUOTE_ID
         );
         $this->assertEquals(
             Netresearch_OPS_Model_Payment_Abstract::REFERENCE_QUOTE_ID,
-            $this->_model->getOrderReference()
+            $this->_model->getInlineOrderReference()
+        );
+
+        $store->setConfig(
+            'payment_services/ops/inlineOrderReference',
+            Netresearch_OPS_Model_Payment_Abstract::REFERENCE_ORDER_ID
+        );
+        $this->assertEquals(
+            Netresearch_OPS_Model_Payment_Abstract::REFERENCE_ORDER_ID,
+            $this->_model->getInlineOrderReference()
         );
     }
 
@@ -444,7 +451,7 @@ class Netresearch_OPS_Test_Model_ConfigTest
     {
         $store = Mage::app()->getStore(0)->load(0);
         $this->assertEquals(
-            Netresearch_OPS_Model_Payment_Abstract::REFERENCE_ORDER_ID,
+            null,
             $this->_model->getInlineOrderReference()
         );
 
@@ -454,6 +461,15 @@ class Netresearch_OPS_Test_Model_ConfigTest
         );
         $this->assertEquals(
             Netresearch_OPS_Model_Payment_Abstract::REFERENCE_QUOTE_ID,
+            $this->_model->getInlineOrderReference()
+        );
+
+        $store->setConfig(
+            'payment_services/ops/inlineOrderReference',
+            Netresearch_OPS_Model_Payment_Abstract::REFERENCE_ORDER_ID
+        );
+        $this->assertEquals(
+            Netresearch_OPS_Model_Payment_Abstract::REFERENCE_ORDER_ID,
             $this->_model->getInlineOrderReference()
         );
     }

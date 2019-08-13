@@ -1084,9 +1084,8 @@ class Netresearch_OPS_Test_Model_ObserverTest
         $order->setPayment($payment);
 
         $observerMock = $this->getMockBuilder('Varien_Event_Observer')
-            ->setMethods(['getOrder'])
-            ->getMock()
-        ;
+            ->setMethods(array('getOrder'))
+            ->getMock();
         $observerMock->expects($this->once())->method('getOrder')->willReturn($order);
         Mage::getModel('ops/observer')->sendPayPerMailInfo($observerMock);
     }
@@ -1101,9 +1100,8 @@ class Netresearch_OPS_Test_Model_ObserverTest
         $order->setPayment($payment);
 
         $observerMock = $this->getMockBuilder('Varien_Event_Observer')
-            ->setMethods(['getOrder'])
-            ->getMock()
-        ;
+            ->setMethods(array('getOrder'))
+            ->getMock();
         $observerMock->expects($this->once())->method('getOrder')->willReturn($order);
         Mage::getModel('ops/observer')->sendPayPerMailInfo($observerMock);
     }

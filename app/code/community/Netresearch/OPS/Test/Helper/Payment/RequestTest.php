@@ -49,8 +49,8 @@ class Netresearch_OPS_Test_Helper_Payment_RequestTest extends EcomDev_PHPUnit_Te
         $params = $this->getRequestHelper()->extractShipToParameters($address, Mage::getModel('sales/quote'));
         $this->assertEquals('Hans', $params['ECOM_SHIPTO_POSTAL_NAME_FIRST']);
         $this->assertEquals('Wurst', $params['ECOM_SHIPTO_POSTAL_NAME_LAST']);
-        $this->assertEquals('Nonnenstrasse' , $params['ECOM_SHIPTO_POSTAL_STREET_LINE1']);
-        $this->assertEquals('Nonnenstrasse' , $params['ECOM_SHIPTO_POSTAL_STREET_LINE1']);
+        $this->assertEquals('Nonnenstrasse', $params['ECOM_SHIPTO_POSTAL_STREET_LINE1']);
+        $this->assertEquals('Nonnenstrasse', $params['ECOM_SHIPTO_POSTAL_STREET_LINE1']);
         $this->assertEquals('', $params['ECOM_SHIPTO_POSTAL_STREET_LINE2']);
         $this->assertEquals('DE', $params['ECOM_SHIPTO_POSTAL_COUNTRYCODE']);
         $this->assertEquals('Leipzig', $params['ECOM_SHIPTO_POSTAL_CITY']);

@@ -56,18 +56,17 @@ class Netresearch_OPS_Helper_Payment_Request
             }
         }
 
-        $shippingStreet        = str_replace("\n", ' ', $address->getStreet(-1));
-        $splittedShippingStreet = Mage::Helper('ops/address')->splitStreet($shippingStreet);
+        $splittedShippingStreet = Netresearch_OPS_Helper_Address::splitStreet($address->getStreet());
 
-        $paramValues['ECOM_SHIPTO_POSTAL_CITY']             = $address->getCity();
-        $paramValues['ECOM_SHIPTO_POSTAL_POSTALCODE']       = $address->getPostcode();
-        $paramValues['ECOM_SHIPTO_POSTAL_STATE']            = $this->getIsoRegionCode($address);
-        $paramValues['ECOM_SHIPTO_POSTAL_COUNTRYCODE']      = $address->getCountry();
-        $paramValues['ECOM_SHIPTO_POSTAL_NAME_FIRST']       = $address->getFirstname();
-        $paramValues['ECOM_SHIPTO_POSTAL_NAME_LAST']        = $address->getLastname();
-        $paramValues['ECOM_SHIPTO_POSTAL_STREET_LINE1']     = $splittedShippingStreet['street_name'];
-        $paramValues['ECOM_SHIPTO_POSTAL_STREET_NUMBER']    = $splittedShippingStreet['street_number'];
-        $paramValues['ECOM_SHIPTO_POSTAL_STREET_LINE2']     = $splittedShippingStreet['supplement'];
+        $paramValues['ECOM_SHIPTO_POSTAL_CITY']          = $address->getCity();
+        $paramValues['ECOM_SHIPTO_POSTAL_POSTALCODE']    = $address->getPostcode();
+        $paramValues['ECOM_SHIPTO_POSTAL_STATE']         = $this->getIsoRegionCode($address);
+        $paramValues['ECOM_SHIPTO_POSTAL_COUNTRYCODE']   = $address->getCountry();
+        $paramValues['ECOM_SHIPTO_POSTAL_NAME_FIRST']    = $address->getFirstname();
+        $paramValues['ECOM_SHIPTO_POSTAL_NAME_LAST']     = $address->getLastname();
+        $paramValues['ECOM_SHIPTO_POSTAL_STREET_LINE1']  = $splittedShippingStreet['street_name'];
+        $paramValues['ECOM_SHIPTO_POSTAL_STREET_NUMBER'] = $splittedShippingStreet['street_number'];
+        $paramValues['ECOM_SHIPTO_POSTAL_STREET_LINE2']  = $splittedShippingStreet['supplement'];
 
         return $paramValues;
     }
@@ -85,7 +84,7 @@ class Netresearch_OPS_Helper_Payment_Request
         $paramValues = array();
 
         if (!$address instanceof Mage_Customer_Model_Address_Abstract) {
-            if (!is_null($salesObject)) {
+            if ($salesObject !== null) {
                 $address = $salesObject->getBillingAddress();
             }
             if (!$address) {
@@ -93,8 +92,7 @@ class Netresearch_OPS_Helper_Payment_Request
             }
         }
 
-        $billingStreet = str_replace("\n", ' ', $address->getStreet(-1));
-        $splittedBillingStreet = Mage::Helper('ops/address')->splitStreet($billingStreet);
+        $splittedBillingStreet = Netresearch_OPS_Helper_Address::splitStreet($address->getStreet());
 
         $paramValues['ECOM_BILLTO_POSTAL_CITY']             = $address->getCity();
         $paramValues['ECOM_BILLTO_POSTAL_POSTALCODE']       = $address->getPostcode();

@@ -6,88 +6,75 @@ class Netresearch_OPS_Test_Helper_OrderTest extends EcomDev_PHPUnit_Test_Case
 
     public function setUp()
     {
-        $this->devPrefix = Mage::getModel('ops/config')->getConfigData(
-            'devprefix'
-        );
+        $this->devPrefix = 'DEV';
         parent::setUp();
     }
 
 
     /**
-     * @loadFixture order.yaml
+     * @test
      */
-    public function testGetOpsOrderId()
+    public function testGetOpsOrderIdFromOrderWithOrderIdAsOrderReference()
     {
-        $store = Mage::app()->getStore(0)->load(0);
-        $store->resetConfig();
+        $orderRef = '123';
+        $configMock = $this->getModelMock('ops/config', array('getConfigData','getOrderReference'));
+        $configMock->expects($this->any())
+            ->method('getConfigData')
+            ->with('devprefix')
+            ->will($this->returnValue($this->devPrefix));
+
+        $configMock->expects($this->any())
+            ->method('getOrderReference')
+            ->will($this->returnValue('orderId'));
+        $this->replaceByMock('model', 'ops/config', $configMock);
+
+        $salesObject = Mage::getModel('sales/order')->setIncrementId($orderRef);
+
+        /** @var Netresearch_OPS_Helper_Order $helper */
         $helper = Mage::helper('ops/order');
 
-        $store->setConfig(
-            'payment_services/ops/redirectOrderReference',
-            Netresearch_OPS_Model_Payment_Abstract::REFERENCE_QUOTE_ID
-        );
-
-        $order = Mage::getModel('sales/order')->load(1);
-        $delimiter = $helper::DELIMITER;
-        $this->assertEquals(
-            $this->devPrefix . $order->getQuoteId(),
-            $helper->getOpsOrderId($order)
-        );
-
-
-        $store->setConfig(
-            'payment_services/ops/redirectOrderReference',
-            Netresearch_OPS_Model_Payment_Abstract::REFERENCE_ORDER_ID
-        );
-
-        $order = Mage::getModel('sales/order')->load(2);
-        $this->assertEquals(
-            $this->devPrefix . $delimiter . $order->getIncrementId(),
-            $helper->getOpsOrderId($order)
-        );
-
-        $store->setConfig(
-            'payment_services/ops/redirectOrderReference',
-            Netresearch_OPS_Model_Payment_Abstract::REFERENCE_QUOTE_ID
-        );
-        $order = Mage::getModel('sales/order')->load(3);
-        $this->assertEquals(
-            $this->devPrefix . $order->getQuoteId(),
-            $helper->getOpsOrderId($order)
-        );
-
-        $store->setConfig(
-            'payment_services/ops/redirectOrderReference',
-            Netresearch_OPS_Model_Payment_Abstract::REFERENCE_ORDER_ID
-        );
-        $order = Mage::getModel('sales/order')->load(3);
-        $this->assertEquals(
-            $this->devPrefix . $order->getQuoteId(),
-            $helper->getOpsOrderId($order, false)
-        );
+        $result = $helper->getOpsOrderId($salesObject);
+        $this->assertEquals($this->devPrefix . '#' . $orderRef, $result);
     }
 
-    
+
     /**
-     * @loadFixture order.yaml
+     * @test
      */
-    public function testGetOrder()
+    public function testGetOpsOrderIdFromQuoteWithOrderIdAsOrderReference()
     {
+        $orderRef = '123';
+        $configMock = $this->getModelMock('ops/config', array('getConfigData','getOrderReference'));
+        $configMock->expects($this->any())
+            ->method('getConfigData')
+            ->with('devprefix')
+            ->will($this->returnValue($this->devPrefix));
+
+        $configMock->expects($this->any())
+            ->method('getOrderReference')
+            ->will($this->returnValue('orderId'));
+        $this->replaceByMock('model', 'ops/config', $configMock);
+
+        $salesObject = $this->getModelMock(
+            'sales/quote',
+            array('getStoreId', 'reserveOrderId', 'getReservedOrderId'),
+            false,
+            array(),
+            '',
+            false
+        );
+
+        $salesObject
+            ->expects($this->once())
+            ->method('getReservedOrderId')
+            ->will($this->returnValue($orderRef));
+
+        /** @var Netresearch_OPS_Helper_Order $helper */
         $helper = Mage::helper('ops/order');
-        // old behaviour: load order from quote
-        $opsOrderId = $this->devPrefix . '5';
-        $order = $helper->getOrder($opsOrderId);
-        $this->assertEquals(4, $order->getId());
 
-        // new behaviour
-        $delimiter = $helper::DELIMITER;
-        $opsOrderId = $this->devPrefix . $delimiter . 2000;
-        $order = $helper->getOrder($opsOrderId);
-        $this->assertEquals(2, $order->getId());
-
-
+        $result = $helper->getOpsOrderId($salesObject);
+        $this->assertEquals($this->devPrefix . '#' . $orderRef, $result);
     }
-
 
     /**
      * @loadFixture order.yaml

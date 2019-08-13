@@ -90,7 +90,7 @@ class Netresearch_OPS_Test_Controller_PaymentControllerTest
         $this->assertEquals($orderId, Mage::getSingleton('checkout/session')->getLastOrderId());
 
         $message = Mage::getSingleton('checkout/session')->getMessages()->getLastAddedMessage();
-        $this->assertEquals('error', $message->getType());
+        $this->assertEquals('warning', $message->getType());
         $this->assertEquals($msg, $message->getText());
 
 
@@ -102,7 +102,7 @@ class Netresearch_OPS_Test_Controller_PaymentControllerTest
         $this->assertEquals($orderId, Mage::getSingleton('checkout/session')->getLastOrderId());
 
         $message = Mage::getSingleton('checkout/session')->getMessages()->getLastAddedMessage();
-        $this->assertEquals('error', $message->getType());
+        $this->assertEquals('warning', $message->getType());
         $this->assertEquals($msg, $message->getText());
     }
 
@@ -254,7 +254,6 @@ class Netresearch_OPS_Test_Controller_PaymentControllerTest
     {
         // test 31: order is fine
         // orderID 100000011
-
         $order = Mage::getModel('sales/order')->load(11);
         $opsOrderId = Mage::helper('ops/order')->getOpsOrderId($order);
 
@@ -264,7 +263,7 @@ class Netresearch_OPS_Test_Controller_PaymentControllerTest
             ->will($this->returnValue(true));
         $this->replaceByMock('helper', 'ops/payment', $paymentHelperMock);
 
-        $this->dispatch('ops/payment/retry', $paymentHelperMock->validateOrderForReuse($opsOrderId,1));
+        $this->dispatch('ops/payment/retry', $paymentHelperMock->validateOrderForReuse($opsOrderId, 1));
 
         $this->assertLayoutLoaded();
         $this->assertLayoutHandleLoaded('ops_payment_retry');
