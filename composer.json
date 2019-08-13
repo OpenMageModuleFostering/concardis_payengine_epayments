@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/ConCardis_PayEngine_ePayments",
+    "type": "magento-module",
+    "license": "OSL3",
+    "homepage": "",
+    "description": "ConCardis PayEngine",
+    "authors": [
+    {
+        "name": "Sebastian Ertner",
+        "email": "sebastian.ertner@netresearch.de"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}
